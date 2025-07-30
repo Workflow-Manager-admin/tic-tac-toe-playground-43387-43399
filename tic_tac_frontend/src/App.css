@@ -1,104 +1,223 @@
-/* CSS Variables for Theme Management */
+/* ---- Theme variables ---- */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --primary: #4a90e2;
+  --accent: #e94e77;
+  --secondary: #ffffff;
+  --background: #f7faff;
+  --board-bg: #ffffff;
+  --board-border: #4a90e2;
+  --cell-bg: var(--secondary);
+  --cell-border: #b4b4b4;
+  --cell-hover: #e7eeff;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e9e9e9;
+  --sidebar-text: #333;
+  --shadow: 0 3px 12px rgba(74,144,226,0.09);
+  --app-maxwidth: 370px;
+  --transition: 0.22s cubic-bezier(.6,0,.4,1);
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
+/* ---- Layout ---- */
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+.tic-tac-wrapper {
+  background: var(--background);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.game-main-container {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+  padding: 36px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+/* ---- Board ---- */
+.game-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.game-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+.ttt-board {
+  background: var(--board-bg);
+  border: 3.5px solid var(--board-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 7px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.ttt-cell {
+  font-family: inherit;
+  font-size: 2.2rem;
+  border-radius: 12px;
+  background: var(--cell-bg);
+  border: 2px solid var(--cell-border);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  color: var(--primary);
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(74,144,226,0.09);
+  transition: background var(--transition), box-shadow var(--transition);
+  min-width: 60px;
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ttt-cell.O {
+  color: var(--accent);
+}
+.ttt-cell:disabled {
+  opacity: 0.62;
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+.ttt-cell:not(:disabled):hover, .ttt-cell:not(:disabled):focus {
+  background-color: var(--cell-hover);
+  box-shadow: 0 2px 8px rgba(74,144,226,0.15);
+  border-color: var(--primary);
+}
+.ttt-cell.highlight {
+  background: linear-gradient(100deg, var(--primary) 60%, var(--accent) 100%);
+  color: #fff !important;
+  border-color: var(--accent);
+  outline: 2px solid var(--primary);
+  animation: cell-won 0.9s linear 2;
+}
+@keyframes cell-won {
+  20% { transform: scale(1.14); }
+  40% { transform: scale(0.97); }
+  60% { transform: scale(1.07);}
+  100%{ transform: scale(1);}
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* ---- Side panel ---- */
+.side-panel {
+  background: var(--sidebar-bg);
+  border: 1.5px solid var(--sidebar-border);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  width: 235px;
+  min-width: 200px;
+  padding: 27px 18px 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--sidebar-text);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.panel-section {
+  margin-bottom: 10px;
+}
+.panel-title {
+  font-size: 1.08em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.4px;
+  color: var(--primary);
+}
+.panel-btn {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 7px;
+  padding: 7px 18px;
+  border: none;
+  font-weight: 600;
+  font-size: 1em;
+  margin-top: 2px;
+  transition: background 0.18s;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(74,144,226,0.06);
+}
+.panel-btn:hover, .panel-btn:focus {
+  background: var(--accent);
+  outline: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.game-status {
+  margin-bottom: 7px;
+  min-height: 1.5em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.turn-indicator {
+  margin-top: 5px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ---- Footer ---- */
+.panel-footer {
+  margin-top: 30px;
+  font-size: 0.93em;
+  color: #aaa;
+  text-align: center;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 760px) {
+  .game-main-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 22px 0;
   }
-  to {
-    transform: rotate(360deg);
+  .side-panel {
+    width: 95vw;
+    min-width: 0;
+    margin: 0 auto;
   }
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+@media (max-width: 480px) {
+  .tic-tac-wrapper {
+    padding: 0;
+    min-height: 100vh;
+    background: #fcfcfd;
+  }
+  .ttt-board {
+    grid-template-columns: repeat(3, 37vw);
+    grid-template-rows: repeat(3, 37vw);
+    gap: 2vw;
+    padding: 4vw;
+    min-width: 0;
+    max-width: 100vw;
+  }
+  .ttt-cell {
+    min-width: 37vw;
+    min-height: 37vw;
+    font-size: 2.6rem;
+  }
+  .side-panel {
+    padding: 15px 9px 7px 9px;
+    font-size: 0.94rem;
+    margin-bottom: 0;
+  }
+  .game-title {
+    font-size: 1.7rem;
+    margin-bottom: 12px;
   }
 }
+
+/* Remove any legacy App.css below here */
